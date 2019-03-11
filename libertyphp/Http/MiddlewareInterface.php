@@ -12,13 +12,9 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 interface MiddlewareInterface
 {
-    /**
+    /*
      * Process an incoming server request and return a response, optionally delegating
      * response creation to a handler.
-     *
-     * @param ServerRequestInterface $request
-     *
-     * @return ResponseInterface
      */
-    public function process(ServerRequestInterface $request);
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface;
 }

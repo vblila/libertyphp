@@ -64,29 +64,10 @@ class Route
         return $this->parameterRules;
     }
 
-    /**
-     * @param array $params
-     * @param ServerRequestInterface $serverRequest
-     *
-     * @return ResponseInterface
-     */
-    public function execute(array $params, ServerRequestInterface $serverRequest)
+    public function execute(array $params, ServerRequestInterface $serverRequest): ResponseInterface
     {
-        $headers = [];
-        foreach ($this->middlewares as $middleware) {
-            $response = $middleware->process($serverRequest);
-
-            foreach ($response->getHeaders() as $name => $values) {
-                foreach ($values as $value) {
-                    $headers[$name] = $value;
-                }
-            }
-        }
-
-        $response = $this->actionController->execute($params, $serverRequest);
-        foreach ($headers as $name => $value) {
-            $response = $response->withHeader($name, $value);
-        }
+        $actionRequestHandler = new ActionRequestHandler($this->middlewares, $this->actionController, $params);
+        $response = $actionRequestHandler->handle($serverRequest);
 
         return $response;
     }
