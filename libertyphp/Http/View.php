@@ -33,8 +33,8 @@ class View
     /** @var array */
     protected $renderData = [];
 
-    /** @var string */
-    protected $renderedContent = '';
+    /** @var string|null */
+    protected $renderedContent;
 
     public function __construct(ContainerInterface $di)
     {
@@ -72,7 +72,7 @@ class View
         return $this;
     }
 
-    public function getRenderedContent(): string
+    public function getRenderedContent(): ?string
     {
         return $this->renderedContent;
     }
