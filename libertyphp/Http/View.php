@@ -9,7 +9,7 @@ class View
     /** @var ContainerInterface */
     protected $di;
 
-    /** @var string */
+    /** @var string|null */
     protected $viewPath;
 
     /** @var array */
@@ -19,16 +19,16 @@ class View
     protected $cssLinks = [];
 
     /** @var string */
-    protected $title;
+    protected $title = '';
 
     /** @var string */
-    protected $heading;
+    protected $heading = '';
 
     /** @var string */
-    protected $keywords;
+    protected $keywords = '';
 
     /** @var string */
-    protected $description;
+    protected $description = '';
 
     /** @var array */
     protected $renderData = [];
@@ -41,7 +41,7 @@ class View
         $this->di = $di;
     }
 
-    public static function html(string $value): string
+    public static function html(?string $value): string
     {
         return htmlspecialchars($value);
     }

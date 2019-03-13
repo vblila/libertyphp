@@ -2,7 +2,7 @@
 Fast and extensible micro framework for PHP.
 
 # Version
-Beta 0.0.20190311
+Beta 0.2.20190313
 
 # Requirements
 LibertyPhp requires PHP 7.2 or greater.
