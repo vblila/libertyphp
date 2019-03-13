@@ -30,7 +30,7 @@ class DiContainer implements ContainerInterface
      *
      * @return $this
      */
-    public function set($id, Closure $fabricClosure)
+    public function set(string $id, Closure $fabricClosure): DiContainer
     {
         $this->serviceFabrics[$id] = $fabricClosure;
         return $this;
@@ -42,7 +42,7 @@ class DiContainer implements ContainerInterface
      *
      * @throws NotFoundExceptionInterface
      */
-    protected function getServiceFabric($id)
+    protected function getServiceFabric(string $id): Closure
     {
         if (!$this->has($id)) {
             throw new NotFoundException();
@@ -57,7 +57,7 @@ class DiContainer implements ContainerInterface
      *
      * @return $this
      */
-    protected function setInitializedService($id, $service)
+    protected function setInitializedService(string $id, $service): DiContainer
     {
         $this->initializedServices[$id] = $service;
         return $this;
@@ -67,7 +67,7 @@ class DiContainer implements ContainerInterface
      * @param string $id
      * @return mixed
      */
-    protected function getInitializedService($id)
+    protected function getInitializedService(string $id)
     {
         if (!isset($this->initializedServices[$id])) {
             return null;

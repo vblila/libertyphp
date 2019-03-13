@@ -7,7 +7,7 @@ class SqlQueryProfilerResult
     /** @var string */
     private $sql;
 
-    /** @var array|null */
+    /** @var array */
     private $binds;
 
     /** @var float */
@@ -16,54 +16,40 @@ class SqlQueryProfilerResult
     /** @var float */
     private $finishMicroTimestamp;
 
-    public function __construct($sql, array $binds = null)
+    public function __construct(string $sql, array $binds = [])
     {
         $this->sql = $sql;
         $this->binds = $binds;
         $this->startMicroTimestamp = microtime(true);
     }
 
-    public function setFinishMicroTimestamp($microTimestamp)
+    public function setFinishMicroTimestamp(float $microTimestamp): SqlQueryProfilerResult
     {
         $this->finishMicroTimestamp = $microTimestamp;
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSql()
+    public function getSql(): string
     {
         return $this->sql;
     }
 
-    /**
-     * @return array|null
-     */
-    public function getBinds()
+    public function getBinds(): array
     {
         return $this->binds;
     }
 
-    /**
-     * @return float
-     */
-    public function getStartMicroTimestamp()
+    public function getStartMicroTimestamp(): float
     {
         return $this->startMicroTimestamp;
     }
 
-    /**
-     * @return float
-     */
-    public function getFinishMicroTimestamp()
+    public function getFinishMicroTimestamp(): float
     {
         return $this->finishMicroTimestamp;
     }
 
-    /**
-     * @return float
-     */
-    public function getSqlTime()
+    public function getSqlTime(): float
     {
         return round($this->getFinishMicroTimestamp() - $this->getStartMicroTimestamp(), 4);
     }

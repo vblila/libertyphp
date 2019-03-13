@@ -40,18 +40,12 @@ class Route
         $this->parameterRules = $parameterRules;
     }
 
-    /**
-     * @return string
-     */
-    public function getMethod()
+    public function getMethod(): string
     {
         return $this->method;
     }
 
-    /**
-     * @return string
-     */
-    public function getPattern()
+    public function getPattern(): string
     {
         return $this->pattern;
     }
@@ -59,7 +53,7 @@ class Route
     /**
      * @return string[]
      */
-    public function getParameterRules()
+    public function getParameterRules(): array
     {
         return $this->parameterRules;
     }

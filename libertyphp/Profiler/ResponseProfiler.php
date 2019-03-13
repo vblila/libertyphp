@@ -18,52 +18,37 @@ class ResponseProfiler
         $this->startMicroTimestamp = microtime(true);
     }
 
-    /**
-     * @param bool $isEnabled
-     * @return $this
-     */
-    public function setEnabled($isEnabled)
+    public function setEnabled(bool $isEnabled): ResponseProfiler
     {
         $this->isEnabled = $isEnabled;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return $this->isEnabled;
     }
 
-    /**
-     * @param SqlQueryProfilerResult $result
-     */
-    public function addSqlQueryProfilerResult(SqlQueryProfilerResult $result)
+    public function addSqlQueryProfilerResult(SqlQueryProfilerResult $result): ResponseProfiler
     {
         $this->sqlQueryProfilerResults[] = $result;
+        return $this;
     }
 
     /**
      * @return SqlQueryProfilerResult[]
      */
-    public function getSqlQueryProfilerResults()
+    public function getSqlQueryProfilerResults(): array
     {
         return $this->sqlQueryProfilerResults;
     }
 
-    /**
-     * @return int
-     */
-    public function getSqlQueriesCount()
+    public function getSqlQueriesCount(): int
     {
         return count($this->getSqlQueryProfilerResults());
     }
 
-    /**
-     * @return float
-     */
-    public function getSqlQueriesTotalTime()
+    public function getSqlQueriesTotalTime(): float
     {
         $time = 0;
         foreach ($this->getSqlQueryProfilerResults() as $queryProfilerResult) {

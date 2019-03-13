@@ -7,11 +7,7 @@ class LayoutView extends View
     /** @var View */
     protected $contentView;
 
-    /**
-     * @param View $contentView
-     * @return $this
-     */
-    public function setContentView(View $contentView)
+    public function setContentView(View $contentView): LayoutView
     {
         $this->contentView = $contentView;
         $this->title = $contentView->getTitle();
@@ -22,7 +18,7 @@ class LayoutView extends View
         return $this;
     }
 
-    public function getCssLinks()
+    public function getCssLinks(): array
     {
         $layoutViewCssLinks = $this->cssLinks;
         $contentViewCssLinks = $this->contentView->getCssLinks();
@@ -32,7 +28,7 @@ class LayoutView extends View
         return $mergedCssLinks;
     }
 
-    public function getJsLinks()
+    public function getJsLinks(): array
     {
         $layoutViewJsLinks = $this->jsLinks;
         $contentViewJsLinks = $this->contentView->getJsLinks();
@@ -42,7 +38,7 @@ class LayoutView extends View
         return $mergedJsLinks;
     }
 
-    public function render()
+    public function render(): View
     {
         $layoutData = $this->renderData;
 

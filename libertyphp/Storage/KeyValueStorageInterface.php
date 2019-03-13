@@ -8,21 +8,19 @@ interface KeyValueStorageInterface
      * @param string $key
      * @param mixed $value
      *
-     * @return void
+     * @return bool
      */
-    public function store($key, $value);
+    public function store(string $key, $value): bool;
 
     /**
      * @param string $key
-     *
      * @return mixed|null
      */
-    public function load($key);
+    public function load(string $key);
 
     /**
      * @param string $key
-     *
-     * @return void
+     * @return bool
      */
-    public function delete($key);
+    public function delete(string $key): bool;
 }

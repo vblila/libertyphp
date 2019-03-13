@@ -22,13 +22,7 @@ class Router
         $this->di = $di;
     }
 
-    /**
-     * @param Route $route
-     * @param string|null $alias
-     *
-     * @return $this
-     */
-    private function addRoute(Route $route, $alias = null)
+    private function addRoute(Route $route, string $alias = null): Router
     {
         // Роуты сохраняем в порядке, в котором они настроены, для соблюдения приоритета
         $this->routes[] = $route;
@@ -58,11 +52,19 @@ class Router
      *
      * @return $this
      */
-    public function addRule($rule, $actionControllerClass, array $middlewares = [], $alias = null, array $parameterRules = [])
-    {
+    public function addRule(
+        string $rule,
+        string $actionControllerClass,
+        array $middlewares = [],
+        string $alias = null,
+        array $parameterRules = []
+    ): Router {
         return $this->addRoute(new Route($rule, $actionControllerClass, $this, $middlewares, $parameterRules), $alias);
     }
 
+    /**
+     * @throws HttpNotFoundException
+     */
     public function renderResponse()
     {
         /** @var ServerRequestInterface $serverRequest */
@@ -83,11 +85,7 @@ class Router
         echo $response->getBody();
     }
 
-    /**
-     * @param ServerRequestInterface $request
-     * @return ResponseInterface|null
-     */
-    public function getResponseByRequest(ServerRequestInterface $request)
+    public function getResponseByRequest(ServerRequestInterface $request): ?ResponseInterface
     {
         // Находим роут, соответствующий паттерну
         foreach ($this->getRoutes() as $route) {
@@ -139,10 +137,7 @@ class Router
         return null;
     }
 
-    /**
-     * @return ContainerInterface
-     */
-    public function getDi()
+    public function getDi(): ContainerInterface
     {
         return $this->di;
     }

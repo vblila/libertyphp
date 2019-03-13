@@ -25,8 +25,10 @@ abstract class PSqlDatabaseTable
     /**
      * @param int $id
      * @return array|null
+     *
+     * @throws SqlQueryException
      */
-    protected function getRowById(int $id)
+    protected function getRowById(int $id): ?array
     {
         $tableName = static::getTableName();
         $pk = static::getPrimaryKeyName();
@@ -34,10 +36,11 @@ abstract class PSqlDatabaseTable
     }
 
     /**
-     * @param int[] $ids
-     * @return array|null
+     * @param array $ids
+     * @return array
+     * @throws SqlQueryException
      */
-    protected function getRowsByIds(array $ids)
+    protected function getRowsByIds(array $ids): array
     {
         $ids = array_unique($ids);
         if (!$ids) {
@@ -57,6 +60,7 @@ abstract class PSqlDatabaseTable
 
     /**
      * @param array $columnValues
+     * @throws SqlQueryException
      */
     protected function insertRow(array $columnValues)
     {
@@ -79,10 +83,11 @@ abstract class PSqlDatabaseTable
     }
 
     /**
-     * @param int $id
+     * @param $id
      * @param array $columnValues
+     * @throws SqlQueryException
      */
-    protected function updateRow($id, array $columnValues)
+    protected function updateRow(int $id, array $columnValues)
     {
         $pk = static::getPrimaryKeyName();
 
@@ -105,6 +110,7 @@ abstract class PSqlDatabaseTable
     /**
      * @param array $row
      * @return array
+     * @throws SqlQueryException
      */
     protected function saveRow(array $row)
     {
@@ -135,8 +141,10 @@ abstract class PSqlDatabaseTable
      * @param int|null $offset
      *
      * @return array
+     *
+     * @throws SqlQueryException
      */
-    public function getRows(array $where, array $order = null, int $limit = null, int $offset = null)
+    public function getRows(array $where, array $order = null, int $limit = null, int $offset = null): array
     {
         $tableName = static::getTableName();
         $pk = static::getPrimaryKeyName();
@@ -177,18 +185,21 @@ abstract class PSqlDatabaseTable
      * @param array $where
      * @param array|null $order
      * @return array|null
+     *
+     * @throws SqlQueryException
      */
-    public function getRow(array $where, array $order = null)
+    public function getRow(array $where, array $order = null): ?array
     {
         $rows = static::getRows($where, $order, 1);
         return $rows[0] ?? null;
     }
 
     /**
-     * @param string[] $where
+     * @param array $where
      * @return int
+     * @throws SqlQueryException
      */
-    public function getCount(array $where)
+    public function getCount(array $where): int
     {
         $tableName = static::getTableName();
         $binds = [];
@@ -215,6 +226,10 @@ abstract class PSqlDatabaseTable
         return $this->db->selectRow($sql, $binds)['cnt'];
     }
 
+    /**
+     * @param int $id
+     * @throws SqlQueryException
+     */
     public function deleteRow(int $id)
     {
         $tableName = static::getTableName();

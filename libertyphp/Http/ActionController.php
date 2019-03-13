@@ -19,18 +19,9 @@ abstract class ActionController
         $this->di = $di;
     }
 
-    /**
-     * @param array $routeParams
-     * @param ServerRequestInterface $request
-     *
-     * @return ResponseInterface
-     */
-    abstract public function execute(array $routeParams, ServerRequestInterface $request);
+    abstract public function execute(array $routeParams, ServerRequestInterface $request): ResponseInterface;
 
-    /**
-     * @return View
-     */
-    public function createView()
+    public function createView(): View
     {
         return new View($this->di);
     }

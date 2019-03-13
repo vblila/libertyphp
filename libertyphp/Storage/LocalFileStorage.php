@@ -12,22 +12,18 @@ class LocalFileStorage implements FileStorageInterface
     /** @var string|null */
     protected $publicPath;
 
-    /**
-     * @param string $storagePath
-     * @param string $publicPath
-     */
-    public function __construct($storagePath, $publicPath = null)
+    public function __construct(string $storagePath, string $publicPath = null)
     {
         $this->storagePath = $storagePath;
         $this->publicPath = $publicPath;
     }
 
-    private function getServerSource($fileKey)
+    private function getServerSource(string $fileKey): string
     {
         return $this->storagePath . '/' . $this->getSubDirSource($fileKey);
     }
 
-    private function getSubDirSource($fileKey)
+    private function getSubDirSource(string $fileKey): string
     {
         $dir1 = substr($fileKey, 0, 2);
         $dir2 = substr($fileKey, 2, 2);
@@ -35,7 +31,7 @@ class LocalFileStorage implements FileStorageInterface
         return $dir1 . '/' . $dir2 . '/' . $fileKey;
     }
 
-    public function getFileUrl($fileKey)
+    public function getFileUrl(string $fileKey): string
     {
         if (!$this->publicPath) {
             throw new Exception('Public path is empty');
@@ -44,7 +40,7 @@ class LocalFileStorage implements FileStorageInterface
         return $this->publicPath . '/' . $this->getSubDirSource($fileKey);
     }
 
-    public function save($fileSource)
+    public function save(string $fileSource): string
     {
         if (!file_exists($fileSource)) {
             throw new Exception("File {$fileSource} not found");
@@ -63,7 +59,7 @@ class LocalFileStorage implements FileStorageInterface
         return $fileKey;
     }
 
-    public function saveContent($content, $fileKey = null)
+    public function saveContent(string $content, string $fileKey = null): string
     {
         if ($fileKey && !file_exists($this->getServerSource($fileKey))) {
             throw new Exception("File {$fileKey} not found");
@@ -86,7 +82,7 @@ class LocalFileStorage implements FileStorageInterface
         return $fileKey;
     }
 
-    public function getContent($fileKey)
+    public function getContent(string $fileKey): string
     {
         $serverSource = $this->getServerSource($fileKey);
         if (!file_exists($serverSource)) {
@@ -96,7 +92,7 @@ class LocalFileStorage implements FileStorageInterface
         return file_get_contents($serverSource);
     }
 
-    private function uuid()
+    private function uuid(): string
     {
         return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
             mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),

@@ -11,21 +11,21 @@ class PSqlDatabase implements SqlDatabaseInterface
     /** @var PDO */
     private $pdoConnection;
 
-    /** @var ResponseProfiler */
+    /** @var ResponseProfiler|null */
     private $responseProfiler;
 
-    public function __construct($dsn, $user, $password, ResponseProfiler $responseProfiler = null)
+    public function __construct(string $dsn, string $user, string $password, ResponseProfiler $responseProfiler = null)
     {
         $this->pdoConnection = new PDO($dsn, $user, $password);
         $this->responseProfiler = $responseProfiler;
     }
 
-    public function getLastInsertedId()
+    public function getLastInsertedId(): string
     {
         return $this->pdoConnection->lastInsertId();
     }
 
-    public function select($sql, array $binds = [])
+    public function select(string $sql, array $binds = []): array
     {
         $sqlQueryProfilerResult = new SqlQueryProfilerResult($sql, $binds);
 
@@ -44,13 +44,13 @@ class PSqlDatabase implements SqlDatabaseInterface
         return $rows;
     }
 
-    public function selectRow($sql, array $binds = [])
+    public function selectRow(string $sql, array $binds = []): ?array
     {
         $result = $this->select($sql, $binds);
         return $result ? $result[0] : null;
     }
 
-    public function execute($sql, array $binds = [])
+    public function execute(string $sql, array $binds = [])
     {
         $sqlQueryProfilerResult = new SqlQueryProfilerResult($sql, $binds);
 
@@ -67,7 +67,7 @@ class PSqlDatabase implements SqlDatabaseInterface
         }
     }
 
-    public function batchInsert($tableName, array $batchColumnValues)
+    public function batchInsert(string $tableName, array $batchColumnValues)
     {
         $columns = array_keys($batchColumnValues[0]);
         $columnsString = join(', ', $columns);

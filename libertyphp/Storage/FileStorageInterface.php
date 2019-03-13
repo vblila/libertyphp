@@ -4,18 +4,14 @@ namespace Libertyphp\Storage;
 
 interface FileStorageInterface
 {
-    /**
-     * @param string $fileKey
-     * @return string
-     */
-    public function getFileUrl($fileKey);
+    public function getFileUrl(string $fileKey): string;
 
     /**
      * Сохраняет файл из fileSource в хранилище, возвращает ключ файла в хранилище
      * @param string $fileSource
      * @return string
      */
-    public function save($fileSource);
+    public function save(string $fileSource): string;
 
     /**
      * Сохраняет контент в файле (существующем или новом), возвращает ключ файла в хранилище
@@ -25,11 +21,11 @@ interface FileStorageInterface
      *
      * @return string
      */
-    public function saveContent($content, $fileKey = null);
+    public function saveContent(string $content, string $fileKey = null): string;
 
     /**
      * @param string $fileKey
      * @return string
      */
-    public function getContent($fileKey);
+    public function getContent(string $fileKey): string;
 }

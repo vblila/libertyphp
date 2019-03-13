@@ -14,9 +14,10 @@ class SyncTaskQueue implements TaskQueueInterface
         $this->di = $di;
     }
 
-    public function add(TaskInterface $task)
+    public function add(TaskInterface $task): TaskQueueInterface
     {
         // В синхронной очереди выполняем добавленные таски сразу
         $task->execute($this->di);
+        return $this;
     }
 }

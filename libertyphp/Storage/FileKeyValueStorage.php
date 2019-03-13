@@ -16,15 +16,12 @@ class FileKeyValueStorage implements KeyValueStorageInterface
         return "{$this->path}/{$key}";
     }
 
-    /**
-     * @param string $path
-     */
-    public function __construct($path)
+    public function __construct(string $path)
     {
         $this->path = $path;
     }
 
-    public function store($key, $value)
+    public function store(string $key, $value): bool
     {
         if (!file_exists($this->path)) {
             mkdir($this->path, 0777, true);
@@ -32,11 +29,13 @@ class FileKeyValueStorage implements KeyValueStorageInterface
 
         $fileResource = fopen($this->getFileSource($key), 'w');
 
-        fwrite($fileResource, serialize($value));
+        $result = fwrite($fileResource, serialize($value));
         fclose($fileResource);
+
+        return $result !== false;
     }
 
-    public function load($key)
+    public function load(string $key)
     {
         $fileSource = $this->getFileSource($key);
         if (!file_exists($fileSource)) {
@@ -48,11 +47,13 @@ class FileKeyValueStorage implements KeyValueStorageInterface
         return unserialize($storedData);
     }
 
-    public function delete($key)
+    public function delete(string $key): bool
     {
         $fileSource = $this->getFileSource($key);
         if (file_exists($fileSource)) {
-            unlink($fileSource);
+            return unlink($fileSource);
         }
+
+        return false;
     }
 }

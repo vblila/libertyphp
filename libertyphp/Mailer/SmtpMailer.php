@@ -32,13 +32,13 @@ class SmtpMailer implements MailerInterface
     private $defaultFromEmail;
 
     public function __construct(
-        $host,
-        $port,
-        $login,
-        $password,
-        $secure,
-        $defaultFromName,
-        $defaultFromEmail,
+        string $host,
+        string $port,
+        string $login,
+        string $password,
+        string $secure,
+        string $defaultFromName,
+        string $defaultFromEmail,
         LoggerInterface $logger = null
     ) {
         $this->logger = $logger;
@@ -53,7 +53,7 @@ class SmtpMailer implements MailerInterface
         $this->defaultFromEmail = $defaultFromEmail;
     }
 
-    public function send(Email $email)
+    public function send(Email $email): bool
     {
         $fromName  = $email->fromName ?? $this->defaultFromName;
         $fromEmail = $email->fromEmail ?? $this->defaultFromEmail;

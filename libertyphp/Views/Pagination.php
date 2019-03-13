@@ -13,14 +13,19 @@ class Pagination
     /** @var int */
     protected $pageLimit;
 
-    /** @var int */
+    /** @var string */
     protected $baseUrl;
 
     /** @var string */
     protected $pageParameter;
 
-    public function __construct($count, $currentPage, $pageLimit, $baseUrl = '', $pageParameter = 'page')
-    {
+    public function __construct(
+        int $count,
+        int $currentPage,
+        int $pageLimit,
+        string $baseUrl = '',
+        string $pageParameter = 'page'
+    ) {
         $this->count = $count;
         $this->currentPage = $currentPage;
         $this->pageLimit = $pageLimit;
@@ -31,7 +36,7 @@ class Pagination
     /**
      * @return int[]
      */
-    public function getPages()
+    public function getPages(): array
     {
         $pages = [];
 
@@ -59,19 +64,12 @@ class Pagination
         return $pages;
     }
 
-    /**
-     * @return int
-     */
-    public function getLastPage()
+    public function getLastPage(): int
     {
         return ceil($this->count / $this->pageLimit);
     }
 
-    /**
-     * @param $page
-     * @return string
-     */
-    public function getPageUrl($page)
+    public function getPageUrl(int $page): string
     {
         $parsedUrl = parse_url($this->baseUrl);
 
@@ -82,26 +80,17 @@ class Pagination
         return $url;
     }
 
-    /**
-     * @return int
-     */
-    public function getCurrentPage()
+    public function getCurrentPage(): int
     {
         return $this->currentPage;
     }
 
-    /**
-     * @return int
-     */
-    public function getPageLimit()
+    public function getPageLimit(): int
     {
         return $this->pageLimit;
     }
 
-    /**
-     * @return int
-     */
-    public function getOffset()
+    public function getOffset(): int
     {
         return $this->pageLimit * ($this->currentPage - 1);
     }

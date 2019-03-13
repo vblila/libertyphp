@@ -31,13 +31,13 @@ class DevMailer implements MailerInterface
     private $defaultFromEmail;
 
     public function __construct(
-        $host,
-        $port,
-        $login,
-        $password,
-        $secure,
-        $defaultFromName,
-        $defaultFromEmail,
+        string $host,
+        string $port,
+        string $login,
+        string $password,
+        string $secure,
+        string $defaultFromName,
+        string $defaultFromEmail,
         LoggerInterface $logger = null
     ) {
         $this->logger = $logger;
@@ -52,7 +52,7 @@ class DevMailer implements MailerInterface
         $this->defaultFromEmail = $defaultFromEmail;
     }
 
-    public function send(Email $email)
+    public function send(Email $email): bool
     {
         $this->logger->info(
             "DevMailer sending to: {$email->toEmail}, subject: {$email->subject}"

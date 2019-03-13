@@ -10,15 +10,12 @@ class LoggerFileStorage implements KeyValueStorageInterface
     /** @var string */
     private $source;
 
-    /**
-     * @param string $source
-     */
-    public function __construct($source)
+    public function __construct(string $source)
     {
         $this->source = $source;
     }
 
-    public function store($key, $value)
+    public function store(string $key, $value): bool
     {
         $dir = dirname($this->source);
         if (!file_exists($dir)) {
@@ -31,16 +28,18 @@ class LoggerFileStorage implements KeyValueStorageInterface
 
         $pid = getmypid();
 
-        fwrite($fileResource, "{$key} {$pid} {$value}" . PHP_EOL);
+        $result = fwrite($fileResource, "{$key} {$pid} {$value}" . PHP_EOL);
         fclose($fileResource);
+
+        return $result !== false;
     }
 
-    public function load($key)
+    public function load(string $key)
     {
         throw new Exception('Logger file storage not implements load method');
     }
 
-    public function delete($key)
+    public function delete(string $key): bool
     {
         throw new Exception('Logger file storage not implements delete method');
     }

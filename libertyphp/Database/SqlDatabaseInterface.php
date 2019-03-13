@@ -2,14 +2,13 @@
 
 namespace Libertyphp\Database;
 
+use Libertyphp\Profiler\ResponseProfiler;
+
 interface SqlDatabaseInterface
 {
-    public function __construct($dsn, $user, $password);
+    public function __construct(string $dsn, string $user, string $password, ResponseProfiler $responseProfiler = null);
 
-    /**
-     * @return string
-     */
-    public function getLastInsertedId();
+    public function getLastInsertedId(): string;
 
     /**
      * @param string $sql
@@ -19,7 +18,7 @@ interface SqlDatabaseInterface
      *
      * @throws SqlQueryException
      */
-    public function select($sql, array $binds = []);
+    public function select(string $sql, array $binds = []): array;
 
     /**
      * @param string $sql
@@ -29,7 +28,7 @@ interface SqlDatabaseInterface
      *
      * @throws SqlQueryException
      */
-    public function selectRow($sql, array $binds = []);
+    public function selectRow(string $sql, array $binds = []): ?array;
 
     /**
      * @param string $sql
@@ -37,7 +36,7 @@ interface SqlDatabaseInterface
      *
      * @throws SqlQueryException
      */
-    public function execute($sql, array $binds = []);
+    public function execute(string $sql, array $binds = []);
 
     /**
      * @param string $tableName
@@ -45,7 +44,7 @@ interface SqlDatabaseInterface
      *
      * @throws SqlQueryException
      */
-    public function batchInsert($tableName, array $batchColumnValues);
+    public function batchInsert(string $tableName, array $batchColumnValues);
 
     public function beginTransaction();
 

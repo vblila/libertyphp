@@ -4,10 +4,7 @@ namespace Libertyphp\Database;
 
 abstract class ModelTableMapper
 {
-    /**
-     * @return array
-     */
-    abstract static function getAttributesMap();
+    abstract static function getAttributesMap(): array;
 
     /**
      * @param array $data
@@ -26,7 +23,7 @@ abstract class ModelTableMapper
      * @param mixed $model
      * @return array
      */
-    public static function fillRowFromModel($model)
+    public static function fillRowFromModel($model): array
     {
         $row = [];
         foreach (static::getAttributesMap() as $modelAttribute => $tableAttribute) {

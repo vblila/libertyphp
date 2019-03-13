@@ -34,46 +34,35 @@ class View
     protected $renderData = [];
 
     /** @var string */
-    protected $renderedContent;
+    protected $renderedContent = '';
 
     public function __construct(ContainerInterface $di)
     {
         $this->di = $di;
     }
 
-    /**
-     * @param string $value
-     * @return string
-     */
-    public static function html($value)
+    public static function html(string $value): string
     {
         return htmlspecialchars($value);
     }
 
-    /**
-     * @param array $renderData
-     * @return $this
-     */
-    public function setRenderData(array $renderData)
+    public function setRenderData(array $renderData): View
     {
         $this->renderData = $renderData;
         return $this;
     }
 
-    /**
-     * @param string $viewPath
-     * @return $this
-     */
-    public function setViewPath($viewPath)
+    public function setViewPath(string $viewPath): View
     {
         $this->viewPath = $viewPath;
         return $this;
     }
 
     /**
+     * Формирует renderedContent
      * @return $this
      */
-    public function render()
+    public function render(): View
     {
         $data = $this->renderData;
         $data['view'] = $this;
@@ -83,21 +72,12 @@ class View
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getRenderedContent()
+    public function getRenderedContent(): string
     {
         return $this->renderedContent;
     }
 
-    /**
-     * @param string $viewPath
-     * @param array $params
-     *
-     * @return string
-     */
-    public static function renderView($viewPath, array $params = [])
+    public static function renderView(string $viewPath, array $params = []): string
     {
         extract($params);
 
@@ -108,11 +88,9 @@ class View
 
         return $html;
     }
-    /**
-     * @param string $url
-     * @return $this
-     */
-    public function addJsFile($url) {
+
+    public function addJsFile(string $url): View
+    {
         $links = $this->jsLinks;
         $links[] = $url;
 
@@ -121,11 +99,8 @@ class View
         return $this;
     }
 
-    /**
-     * @param string $url
-     * @return $this
-     */
-    public function addCssFile($url) {
+    public function addCssFile(string $url): View
+    {
         $links = $this->cssLinks;
         $links[] = $url;
 
@@ -134,11 +109,7 @@ class View
         return $this;
     }
 
-    /**
-     * @param string $title
-     * @return $this
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): View
     {
         $this->title = $title;
 
@@ -149,64 +120,40 @@ class View
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $heading
-     * @return $this
-     */
-    public function setHeading($heading)
+    public function setHeading(string $heading): View
     {
         $this->heading = $heading;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getHeading()
+    public function getHeading(): string
     {
         return $this->heading;
     }
 
-    /**
-     * @param string $keywords
-     * @return $this
-     */
-    public function setKeywords($keywords)
+    public function setKeywords(string $keywords): View
     {
         $this->keywords = $keywords;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getKeywords()
+    public function getKeywords(): string
     {
         return $this->keywords;
     }
 
-    /**
-     * @param string $description
-     * @return $this
-     */
-    public function setDescription($description)
+    public function setDescription(string $description): View
     {
         $this->description = $description;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -219,36 +166,34 @@ class View
      *
      * @return string|null
      */
-    public function getCachedAssetUrl($source, $siteUrl)
+    public function getCachedAssetUrl(string $source, string $siteUrl): ?string
     {
         $href = $siteUrl . '/' . $source;
         $path = $_SERVER['DOCUMENT_ROOT'] . '/' . $source;
         if (file_exists($path)) {
             return $href . '?' . (filemtime($path) - strtotime(date('Y') . '-01-01 00:00:00'));
         }
+
         return null;
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function getCssLinks()
+    public function getCssLinks(): array
     {
         return $this->cssLinks;
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function getJsLinks()
+    public function getJsLinks(): array
     {
         return $this->jsLinks;
     }
 
-    /**
-     * @return ContainerInterface
-     */
-    public function getDiContainer()
+    public function getDiContainer(): ContainerInterface
     {
         return $this->di;
     }
