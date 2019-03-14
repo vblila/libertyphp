@@ -53,7 +53,7 @@ class Pagination
             $pages[] = $p;
         }
 
-        if ($innerLastPage > 1) {
+        if ($innerLastPage >= 1) {
             if ($innerLastPage < $this->getLastPage() - 1) {
                 $pages[] = null;
             }
