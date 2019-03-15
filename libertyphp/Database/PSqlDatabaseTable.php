@@ -153,13 +153,25 @@ abstract class PSqlDatabaseTable
 
         $whereSql = ['1 = 1'];
         foreach ($where as $whereCondition => $value) {
-            if (is_numeric($whereCondition)) {
-                $whereCondition = $value;
-            }
+            if (is_array($value)) {
+                $whereInSqlString = '';
+                foreach ($value as $i => $valueItem) {
+                    $whereInSqlString .= is_string($valueItem) ? "'{$valueItem}'" : $valueItem;
+                    if ($i < count($value) - 1) {
+                        $whereInSqlString .= ',';
+                    }
 
-            $whereSql[] = "{$whereCondition}";
-            if ($whereCondition != $value) {
-                $binds[] = $value;
+                    $whereSql[] = str_replace('?', "({$whereInSqlString})", $whereCondition);
+                }
+            } else {
+                if (is_numeric($whereCondition)) {
+                    $whereCondition = $value;
+                }
+
+                $whereSql[] = "{$whereCondition}";
+                if ($whereCondition != $value) {
+                    $binds[] = $value;
+                }
             }
         }
 
@@ -209,13 +221,25 @@ abstract class PSqlDatabaseTable
         } else {
             $whereSql = [];
             foreach ($where as $whereCondition => $value) {
-                if (is_numeric($whereCondition)) {
-                    $whereCondition = $value;
-                }
+                if (is_array($value)) {
+                    $whereInSqlString = '';
+                    foreach ($value as $i => $valueItem) {
+                        $whereInSqlString .= is_string($valueItem) ? "'{$valueItem}'" : $valueItem;
+                        if ($i < count($value) - 1) {
+                            $whereInSqlString .= ',';
+                        }
 
-                $whereSql[] = "{$whereCondition}";
-                if ($whereCondition != $value) {
-                    $binds[] = $value;
+                        $whereSql[] = str_replace('?', "({$whereInSqlString})", $whereCondition);
+                    }
+                } else {
+                    if (is_numeric($whereCondition)) {
+                        $whereCondition = $value;
+                    }
+
+                    $whereSql[] = "{$whereCondition}";
+                    if ($whereCondition != $value) {
+                        $binds[] = $value;
+                    }
                 }
             }
 
