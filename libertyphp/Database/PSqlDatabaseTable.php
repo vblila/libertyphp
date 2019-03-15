@@ -160,9 +160,9 @@ abstract class PSqlDatabaseTable
                     if ($i < count($value) - 1) {
                         $whereInSqlString .= ',';
                     }
-
-                    $whereSql[] = str_replace('?', "({$whereInSqlString})", $whereCondition);
                 }
+
+                $whereSql[] = str_replace('?', "({$whereInSqlString})", $whereCondition);
             } else {
                 if (is_numeric($whereCondition)) {
                     $whereCondition = $value;
@@ -228,9 +228,9 @@ abstract class PSqlDatabaseTable
                         if ($i < count($value) - 1) {
                             $whereInSqlString .= ',';
                         }
-
-                        $whereSql[] = str_replace('?', "({$whereInSqlString})", $whereCondition);
                     }
+
+                    $whereSql[] = str_replace('?', "({$whereInSqlString})", $whereCondition);
                 } else {
                     if (is_numeric($whereCondition)) {
                         $whereCondition = $value;
