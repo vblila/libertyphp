@@ -169,7 +169,7 @@ abstract class PSqlDatabaseTable
                 }
 
                 $whereSql[] = "{$whereCondition}";
-                if ($whereCondition != $value) {
+                if ($whereCondition !== $value) {
                     $binds[] = $value;
                 }
             }
@@ -237,7 +237,7 @@ abstract class PSqlDatabaseTable
                     }
 
                     $whereSql[] = "{$whereCondition}";
-                    if ($whereCondition != $value) {
+                    if ($whereCondition !== $value) {
                         $binds[] = $value;
                     }
                 }
