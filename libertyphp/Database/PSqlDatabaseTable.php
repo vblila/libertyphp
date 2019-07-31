@@ -149,33 +149,10 @@ abstract class PSqlDatabaseTable
         $tableName = static::getTableName();
         $pk = static::getPrimaryKeyName();
 
-        $binds = [];
+        $processedWhere = $this->getProcessedWhere($where);
+        $whereSql = $processedWhere[0];
+        $binds    = $processedWhere[1];
 
-        $whereSql = ['1 = 1'];
-        foreach ($where as $whereCondition => $value) {
-            if (is_array($value)) {
-                $whereInSqlString = '';
-                foreach ($value as $i => $valueItem) {
-                    $whereInSqlString .= is_string($valueItem) ? "'{$valueItem}'" : $valueItem;
-                    if ($i < count($value) - 1) {
-                        $whereInSqlString .= ',';
-                    }
-                }
-
-                $whereSql[] = str_replace('?', "({$whereInSqlString})", $whereCondition);
-            } else {
-                if (is_numeric($whereCondition)) {
-                    $whereCondition = $value;
-                }
-
-                $whereSql[] = "{$whereCondition}";
-                if ($whereCondition !== $value) {
-                    $binds[] = $value;
-                }
-            }
-        }
-
-        $whereSql = join(' AND ', $whereSql);
         $orderSql = $order ? join(', ', $order) : "{$pk} ASC";
 
         $sql = "SELECT * FROM {$tableName} WHERE {$whereSql} ORDER BY {$orderSql}";
@@ -219,35 +196,51 @@ abstract class PSqlDatabaseTable
         if (!$where) {
             $sql = "SELECT COUNT(*) cnt FROM {$tableName}";
         } else {
-            $whereSql = [];
-            foreach ($where as $whereCondition => $value) {
-                if (is_array($value)) {
-                    $whereInSqlString = '';
-                    foreach ($value as $i => $valueItem) {
-                        $whereInSqlString .= is_string($valueItem) ? "'{$valueItem}'" : $valueItem;
-                        if ($i < count($value) - 1) {
-                            $whereInSqlString .= ',';
-                        }
-                    }
+            $processedWhere = $this->getProcessedWhere($where);
+            $whereSql = $processedWhere[0];
+            $binds    = $processedWhere[1];
 
-                    $whereSql[] = str_replace('?', "({$whereInSqlString})", $whereCondition);
-                } else {
-                    if (is_numeric($whereCondition)) {
-                        $whereCondition = $value;
-                    }
-
-                    $whereSql[] = "{$whereCondition}";
-                    if ($whereCondition !== $value) {
-                        $binds[] = $value;
-                    }
-                }
-            }
-
-            $whereSql = join(' AND ', $whereSql);
             $sql = "SELECT COUNT(*) cnt FROM {$tableName} WHERE {$whereSql}";
         }
 
         return $this->db->selectRow($sql, $binds)['cnt'];
+    }
+
+    /**
+     * @param array $where
+     * @return array [string whereSql, array binds]
+     */
+    private function getProcessedWhere(array $where): array
+    {
+        $whereSql = ['1 = 1'];
+        $binds    = [];
+
+        foreach ($where as $whereCondition => $value) {
+            if (is_array($value)) {
+                $whereInSqlString = '';
+                foreach ($value as $i => $valueItem) {
+                    $whereInSqlString .= is_string($valueItem) ? "'" . pg_escape_string($valueItem) . "'" : $valueItem;
+                    if ($i < count($value) - 1) {
+                        $whereInSqlString .= ',';
+                    }
+                }
+
+                $whereSql[] = str_replace('?', "({$whereInSqlString})", $whereCondition);
+            } else {
+                if (is_numeric($whereCondition)) {
+                    $whereCondition = $value;
+                }
+
+                $whereSql[] = "{$whereCondition}";
+                if ($whereCondition !== $value) {
+                    $binds[] = $value;
+                }
+            }
+        }
+
+        $whereSql = join(' AND ', $whereSql);
+
+        return [$whereSql, $binds];
     }
 
     /**

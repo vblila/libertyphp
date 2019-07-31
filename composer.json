@@ -24,7 +24,8 @@
         "guzzlehttp/psr7": "^1.4",
         "dflydev/fig-cookies": "^1.0",
         "txthinking/mailer": "^1.4",
-      "ext-pdo": "*"
+      "ext-pdo": "*",
+      "ext-pgsql": "*"
     },
     "autoload": {
         "psr-4": {
