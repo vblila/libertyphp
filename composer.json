@@ -1,35 +1,46 @@
 {
     "name": "libertyphp/libertyphp",
-    "description": "Fast and extensible micro framework for PHP.",
+    "description": "The Liberty PHP framework. Fast and extensible micro framework for PHP.",
+    "version": "1.0",
     "type": "library",
     "keywords": [
         "php",
-        "framework"
+        "framework",
+        "micro framework",
+        "mvc framework",
+        "fast framework"
     ],
-    "homepage": "http://licode.ru/libertyphp",
+    "homepage": "https://github.com/vblila/libertyphp",
     "license": "MIT",
     "authors": [
         {
             "name": "Vladimir Lila",
             "email": "v.b.lila@yandex.ru",
-            "role": "lead"
+            "homepage": "https://github.com/vblila",
+            "role": "Developer"
         }
     ],
-    "minimum-stability": "stable",
     "require": {
-        "php": "^7.2",
-        "psr/log": "^1.0",
-        "psr/container": "^1.0",
-        "psr/http-message": "^1.0",
-        "guzzlehttp/psr7": "^1.4",
-        "dflydev/fig-cookies": "^1.0",
-        "txthinking/mailer": "^1.4",
-      "ext-pdo": "*",
-      "ext-pgsql": "*"
+        "php": ">=8.1",
+        "psr/log": "^1.1.4",
+        "psr/container": "^2.0.2",
+        "psr/http-message": "^1.0.1",
+        "psr/http-server-middleware": "^1.0.1",
+        "guzzlehttp/psr7": "^2.4.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "9.5.16"
     },
     "autoload": {
         "psr-4": {
-            "Libertyphp\\": "libertyphp/"
+            "Libertyphp\\": "src"
         }
-    }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Libertyphp\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
