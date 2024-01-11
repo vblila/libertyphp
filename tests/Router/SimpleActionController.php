@@ -13,6 +13,10 @@ class SimpleActionController extends ActionController
     {
         $responseBody = 'Simple response';
 
+        if ($this->route->getName()) {
+            $responseBody .= ' with route name ' . $this->route->getName();
+        }
+
         $requestBody = $request->getBody()->getContents();
         if ($requestBody) {
             $responseBody .= ' with request body ' . $requestBody;

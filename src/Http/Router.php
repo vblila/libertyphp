@@ -5,7 +5,6 @@ namespace Libertyphp\Http;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\StreamInterface;
 use Psr\Http\Server\MiddlewareInterface;
 
 class Router
@@ -23,13 +22,14 @@ class Router
         $this->di = $di;
     }
 
-    private function addRoute(Route $route, string $name = null): Router
+    private function addRoute(Route $route): Router
     {
         // It's important to follow order, bc in case of similar routes the first one wins
         $this->routes[] = $route;
 
-        if ($name) {
-            $this->routeByNames[$name] = $route;
+        $routeName = $route->getName();
+        if ($routeName) {
+            $this->routeByNames[$routeName] = $route;
         }
 
         return $this;
@@ -37,7 +37,7 @@ class Router
 
     public function getRouteByName(string $name): ?Route
     {
-        return $this->routeByNames[$name];
+        return $this->routeByNames[$name] ?? null;
     }
 
     /**
@@ -54,8 +54,7 @@ class Router
      */
     public function addRule(string $rule, string $actionControllerClass, array $middlewares = [], ?string $name = null, array $parameterRules = []): Router {
         return $this->addRoute(
-            new Route($rule, $actionControllerClass, $this, $middlewares, $parameterRules),
-            $name
+            new Route($rule, $actionControllerClass, $this, $middlewares, $name, $parameterRules),
         );
     }
 

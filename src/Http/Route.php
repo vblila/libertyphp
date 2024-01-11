@@ -2,6 +2,7 @@
 
 namespace Libertyphp\Http;
 
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -12,7 +13,11 @@ class Route
 
     private string $pattern;
 
-    private ActionController $actionController;
+    private ContainerInterface $di;
+
+    private string $actionControllerClass;
+
+    private ?string $name;
 
     /** @var MiddlewareInterface[] */
     private array $middlewares;
@@ -24,15 +29,17 @@ class Route
      * @param MiddlewareInterface[] $middlewares
      * @param string[] $parameterRules
      */
-    public function __construct(string $rule, string $actionControllerClass, Router $router, array $middlewares = [], array $parameterRules = [])
+    public function __construct(string $rule, string $actionControllerClass, Router $router, array $middlewares = [], ?string $name = null, array $parameterRules = [])
     {
         [$method, $pattern] = explode(' ', $rule);
 
-        $this->method           = $method;
-        $this->pattern          = $pattern;
-        $this->actionController = new $actionControllerClass($router->getDi());
-        $this->middlewares      = $middlewares;
-        $this->parameterRules   = $parameterRules;
+        $this->method                = $method;
+        $this->pattern               = $pattern;
+        $this->actionControllerClass = $actionControllerClass;
+        $this->di                    = $router->getDi();
+        $this->middlewares           = $middlewares;
+        $this->name                  = $name;
+        $this->parameterRules        = $parameterRules;
     }
 
     public function getMethod(): string
@@ -45,6 +52,11 @@ class Route
         return $this->pattern;
     }
 
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
     /**
      * @return string[]
      */
@@ -55,6 +67,9 @@ class Route
 
     public function execute(array $params, ServerRequestInterface $serverRequest): ResponseInterface
     {
-        return (new ActionRequestHandler($this->middlewares, $this->actionController, $params))->handle($serverRequest);
+        /** @var ActionController $actionController */
+        $actionController = new $this->actionControllerClass($this->di, $this);
+
+        return (new ActionRequestHandler($this->middlewares, $actionController, $params))->handle($serverRequest);
     }
 }

@@ -147,4 +147,23 @@ final class RouterTest extends TestCase
         $this->assertNotNull($response);
         $this->assertSame(200, $response->getStatusCode());
     }
+
+    public function testWithRouteName(): void
+    {
+        $router = self::createEmptyRouter();
+
+        $router->addRule('GET /orders/created', SimpleActionController::class, [], 'orders.created');
+        $router->addRule('GET /orders/completed', SimpleActionController::class, [], 'orders.completed');
+
+        $request = new ServerRequest('GET', '/orders/completed');
+        $response = $router->getResponseByRequest($request);
+
+        $this->assertNotNull($response);
+        $this->assertSame('Simple response with route name orders.completed', $response->getBody()->getContents());
+
+        $route = $router->getRouteByName('orders.created');
+        $this->assertNotNull($route);
+
+        $this->assertSame('orders.created', $route->getName());
+    }
 }

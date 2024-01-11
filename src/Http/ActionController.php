@@ -12,12 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 abstract class ActionController
 {
-    protected ContainerInterface $di;
-
-    public function __construct(ContainerInterface $di)
-    {
-        $this->di = $di;
-    }
+    public function __construct(protected ContainerInterface $di, protected Route $route) {}
 
     abstract public function execute(array $routeParams, ServerRequestInterface $request): ResponseInterface;
 }
