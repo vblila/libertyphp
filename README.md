@@ -23,8 +23,8 @@ Make directories like this:
 ```text
 |--bootstrap
 |--config
-|--myapp
-    |--http
+|--MyApp
+    |--Htpp
 |--public
 |--views
 ```
@@ -35,7 +35,7 @@ Append to ```composer.json``` autoload rule:
 ```
 "autoload": {
     "psr-4": {
-        "MyApp\\": "myapp/"
+        "MyApp\\": "MyApp/"
     }
 },
 ```
@@ -162,7 +162,7 @@ Today is <?= View::html($date) ?>
 ```
 
 Controller with many actions is bad solution (violates the Single Responsibility Principle). Each action must be in separated class.
-Create action controller file ```myapp/http/IndexActionController.php``` with content:
+Create action controller file ```MyApp/Htpp/IndexActionController.php``` with content:
 
 ```php
 <?php
@@ -278,8 +278,8 @@ At the end there will be such a directory and file structure:
     |--error_handler.php
 |--config
     |--routes.php
-|--myapp
-    |--http
+|--MyApp
+    |--Htpp
         |--IndexActionController.php
 |--public
     |--index.php
