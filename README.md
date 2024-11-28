@@ -498,4 +498,4 @@ echo $usersById[102]['name'];
 
 Copyright
 =========
-Copyright (c) 2018-2022 Vladimir Lila. See LICENSE for details.
+Copyright (c) 2018-2024 Vladimir Lila. See LICENSE for details.
