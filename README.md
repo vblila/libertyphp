@@ -22,6 +22,7 @@ composer require libertyphp/libertyphp
 Make directories like this:
 ```text
 |--bootstrap
+|--config
 |--MyApp
     |--Htpp
 |--public
@@ -275,6 +276,8 @@ At the end there will be such a directory and file structure:
     |--core.php
     |--di.php
     |--error_handler.php
+|--config
+    |--routes.php
 |--MyApp
     |--Htpp
         |--IndexActionController.php
