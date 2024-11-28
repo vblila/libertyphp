@@ -306,7 +306,7 @@ $di->singleton('appLog', function() {
     return new SimpleLogger($stream, $requestId);
 });
 ```
-Tip: reate **logs** directory at project's root.
+Tip: create **logs** directory at project's root.
 
 Logger usage example:
 ```php
