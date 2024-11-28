@@ -22,8 +22,9 @@ composer require libertyphp/libertyphp
 Make directories like this:
 ```text
 |--bootstrap
-|--myapp
-    |--http
+|--config
+|--MyApp
+    |--Htpp
 |--public
 |--views
 ```
@@ -34,7 +35,7 @@ Append to ```composer.json``` autoload rule:
 ```
 "autoload": {
     "psr-4": {
-        "MyApp\\": "myapp/"
+        "MyApp\\": "MyApp/"
     }
 },
 ```
@@ -161,7 +162,7 @@ Today is <?= View::html($date) ?>
 ```
 
 Controller with many actions is bad solution (violates the Single Responsibility Principle). Each action must be in separated class.
-Create action controller file ```myapp/http/IndexActionController.php``` with content:
+Create action controller file ```MyApp/Htpp/IndexActionController.php``` with content:
 
 ```php
 <?php
@@ -275,8 +276,10 @@ At the end there will be such a directory and file structure:
     |--core.php
     |--di.php
     |--error_handler.php
-|--myapp
-    |--http
+|--config
+    |--routes.php
+|--MyApp
+    |--Htpp
         |--IndexActionController.php
 |--public
     |--index.php
@@ -303,6 +306,8 @@ $di->singleton('appLog', function() {
     return new SimpleLogger($stream, $requestId);
 });
 ```
+Tip: create **logs** directory at project's root.
+
 Logger usage example:
 ```php
 /** @var SimpleLogger $appLog */
@@ -495,4 +500,4 @@ echo $usersById[102]['name'];
 
 Copyright
 =========
-Copyright (c) 2018-2022 Vladimir Lila. See LICENSE for details.
+Copyright (c) 2018-2024 Vladimir Lila. See LICENSE for details.
