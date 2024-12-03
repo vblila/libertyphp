@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
+namespace Libertyphp\Tests\Router;
+
 use GuzzleHttp\Psr7\ServerRequest;
 use JetBrains\PhpStorm\Pure;
 use Libertyphp\DependencyInjection\DiContainer;
 use Libertyphp\Http\Router;
-use Libertyphp\Tests\Router\SimpleActionController;
-use Libertyphp\Tests\Router\SimpleMiddleware;
 use PHPUnit\Framework\TestCase;
 
 final class RouterTest extends TestCase

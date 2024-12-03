@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
 
+namespace Libertyphp\Tests\Views;
+
 use Libertyphp\Views\LayoutView;
 use Libertyphp\Views\View;
 use PHPUnit\Framework\TestCase;

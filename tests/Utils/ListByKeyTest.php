@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
-use Libertyphp\Tests\Utils\TestUser;
+namespace Libertyphp\Tests\Utils;
+
 use Libertyphp\Utils\ListByKey;
 use PHPUnit\Framework\TestCase;
 

@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
 
+namespace Libertyphp\Tests\Logger;
+
 use GuzzleHttp\Psr7\Utils;
 use Libertyphp\Logger\SimpleLogger;
 use PHPUnit\Framework\TestCase;

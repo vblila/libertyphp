@@ -18,7 +18,7 @@ class SimpleLogger extends AbstractLogger
     {
         try {
             $requestId = $requestId ?? Random::uuidV4();
-        } catch (Exception $exception) {
+        } catch (Exception) {
             $requestId = (string) mt_rand(1000, 9999);
         }
 
@@ -28,7 +28,18 @@ class SimpleLogger extends AbstractLogger
 
     public function log($level, $message, array $context = [])
     {
-        $date = DateTime::createFromFormat('U.u', microtime(true));
+        $mtime = microtime(true);
+        $date = DateTime::createFromFormat('U.u', $mtime);
+
+        /**
+         * @link https://www.php.net/manual/ru/datetime.createfromformat.php#128901
+         * Trying to format() will return a fatal error if microtime(true) just so happened to return a float with all zeros as decimals.
+         * This is because DateTime::createFromFormat('U.u', $aFloatWithAllZeros) returns false.
+         */
+        if ($date === false) {
+            $date = DateTime::createFromFormat('U', $mtime);
+        }
+
         $loggedString = $date->format('Y-m-d H:i:s.u') . ' ' . $this->requestId . ' ' . $level . ': ' . $message;
 
         if ($context) {

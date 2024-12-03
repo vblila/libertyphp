@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
 
+namespace Libertyphp\Tests\Di;
+
 use Libertyphp\DependencyInjection\DiContainer;
 use Libertyphp\DependencyInjection\NotFoundException;
 use PHPUnit\Framework\TestCase;
